@@ -48,4 +48,18 @@ class Response < ApplicationRecord
             errors[:user_id] << 'Sir your are not allowed to respond to your own poll'
         end
     end
+    def does_not_respond_to_own_poll
+        poll_author_id = Poll.find_by_sql([<<-SQL, user_id])
+        SELECT 
+            polls.author_id
+        FROM
+            polls
+        INNER JOIN questions
+            ON questions.poll_id = polls.id
+        INNER JOIN answer_choices
+            ON answer_choices.question_id = questions.id
+        WHERE 
+            polls.author_id = ?
+        SQL
+    end
 end
