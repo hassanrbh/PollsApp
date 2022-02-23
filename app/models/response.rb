@@ -62,4 +62,17 @@ class Response < ApplicationRecord
             polls.author_id = ?
         SQL
     end
+    def sibling_responses
+        # 1 query
+        first_query = <<-SQL
+        SELECT
+            questions.*
+        FROM 
+            questions
+        INNER JOIN answer_choices
+            ON answer_choices.question_id = questions.id
+        INNER JOIN responses
+            ON responses.answer_choice_id = answer_choices.id
+        SQL
+    end
 end

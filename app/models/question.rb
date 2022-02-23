@@ -12,7 +12,12 @@ class Question < ApplicationRecord
     # ? Validations
     validates :poll_id, presence: true
     validates :text, presence: true, uniqueness: true
+    after_destroy :log_destroy_actions
 
+    # * Destroy Questions
+    def log_destroy_actions
+        puts "Questions destroyed because you exit"
+    end
     # ! Association :> Poll::poll
     belongs_to :poll,
         class_name: 'Poll',

@@ -21,7 +21,12 @@ class User < ApplicationRecord
         class_name: 'Response',
         primary_key: :id,
         foreign_key: :user_id
-        
+    # ! Association :> Question
+    has_many :questions,
+        class_name: 'Question',
+        primary_key: :id,
+        foreign_key: :id,
+        dependent: :destroy
     # Bonus: More methods
 
     # returm polls where the user has not answered all of the question in the poll
